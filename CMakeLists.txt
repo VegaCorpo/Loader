@@ -37,7 +37,7 @@ if (CMAKE_BUILD_TYPE STREQUAL "Asan")
 endif()
 
 add_library(orbital_loader SHARED
-    src/Loader.cpp
+    src/LoaderEngine.cpp
 )
 
 # target_link_libraries(orbital_loader PRIVATE)
