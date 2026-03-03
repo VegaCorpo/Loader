@@ -1,3 +1,5 @@
+#pragma once
+
 namespace loader {
     class Loader {
     public:
