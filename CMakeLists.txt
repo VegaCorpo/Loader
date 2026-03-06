@@ -11,6 +11,9 @@ set(CPM_USE_LOCAL_PACKAGES ON)
 
 include(cmake/CPM.cmake)
 CPMUsePackageLock(package-lock.cmake)
+CPMGetPackage(Json)
+CPMGetPackage(EnTT)
+CPMGetPackage(Common)
 
 if (NOT CMAKE_BUILD_TYPE)
     set(CMAKE_BUILD_TYPE "Release")
@@ -37,10 +40,11 @@ if (CMAKE_BUILD_TYPE STREQUAL "Asan")
 endif()
 
 add_library(orbital_loader SHARED
-    src/LoaderEngine.cpp
+    src/LoaderAPI.cpp
+    src/Loader.cpp
 )
 
-# target_link_libraries(orbital_loader PRIVATE)
+target_link_libraries(orbital_loader PRIVATE nlohmann_json::nlohmann_json EnTT::EnTT Common)
 
 target_include_directories(orbital_loader PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}
