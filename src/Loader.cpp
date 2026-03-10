@@ -48,10 +48,8 @@ void loader::SimulationLoader::_createComponents(const entt::entity& entity, con
     if (entityData.contains("components") && entityData["components"].is_object()) {
         const json& componentsData = entityData["components"];
         for (const auto& item : componentsData.items()) {
-            for (const auto& it : this->_mapLoader) {
-                if (item.key() == it.first)
-                    it.second(entity, componentsData);
-            }
+            if (this->_mapLoader.find(item.key()) != this->_mapLoader.end())
+                this->_mapLoader.at(item.key())(entity, componentsData);
         }
     }
 }
