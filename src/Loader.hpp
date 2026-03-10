@@ -1,5 +1,6 @@
 #pragma once
 
+#include <entt/entity/fwd.hpp>
 #include <nlohmann/json.hpp>
 #include <string>
 #include <types/types.hpp>
@@ -22,11 +23,18 @@ namespace loader {
                     std::string _msg;
             };
 
-            explicit SimulationLoader(const std::string& filename);
+            explicit SimulationLoader(entt::registry& registry, const std::string& filename);
 
-            void createEntities(entt::registry& registry);
+            void createEntities();
 
         private:
+            void _createComponents(const entt::entity &entity, const nlohmann::json&);
+            void _createMassCpn(const entt::entity &entity, const nlohmann::json&);
+            void _createAccelerationCpn(const entt::entity& entity, const nlohmann::json& components);
+            void _createPositionCpn(const entt::entity& entity, const nlohmann::json& components);
+            void _createVelocityCpn(const entt::entity& entity, const nlohmann::json& components);
+
             nlohmann::json data;
+            entt::registry& registry;
     };
 } // namespace loader

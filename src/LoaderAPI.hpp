@@ -6,5 +6,5 @@
 #include <string>
 
 extern "C" {
-    common::LoaderStatus createScene(entt::registry& registry ,const std::string& filename) noexcept;
+    common::LoaderStatus createScene(void *registry ,const std::string& filename) noexcept;
 }

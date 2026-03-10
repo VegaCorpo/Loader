@@ -1,14 +1,15 @@
 #include "LoaderAPI.hpp"
 #include <iostream>
 #include "Loader.hpp"
+#include <entt/entity/registry.hpp>
 
 extern "C" {
-    common::LoaderStatus createScene(entt::registry& registry, const std::string& filename) noexcept
+    common::LoaderStatus createScene(void *registry_ptr, const std::string& filename) noexcept
     {
         try {
-            std::cout << "Enter in loader\n";
-            loader::SimulationLoader loader(filename);
-            loader.createEntities(registry);
+            auto& registry = *static_cast<entt::registry*>(registry_ptr);
+            loader::SimulationLoader loader(registry, filename);
+            loader.createEntities();
         }
         catch (const loader::SimulationLoader::SimulationLoaderError& e) {
             std::cerr << e.what();

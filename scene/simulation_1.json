@@ -7,9 +7,21 @@
           "mantissa": 5.97,
           "exponent": 24
         },
-        "Acceleration": [0, 0],
-        "Position": [149597870.0, 0.0, 0.0],
-        "Velocity": [0.0, 0.0, 0.0]
+        "Acceleration": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0
+        },
+        "Position": {
+          "x": 149597870.0,
+          "y": 0.0,
+          "z": 0.0
+        },
+        "Velocity": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0
+        }
       }
     },
     {
@@ -19,9 +31,21 @@
           "mantissa": 7.35,
           "exponent": 22
         },
-        "Acceleration": [0, 0],
-        "Position": [149213470.0, 0.0, 0.0],
-        "Velocity": [0.0, 0.0, 0.0]
+        "Acceleration": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0
+        },
+        "Position": {
+          "x": 149213470.0,
+          "y": 0.0,
+          "z": 0.0
+        },
+        "Velocity": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0
+        }
       }
     },
     {
@@ -31,9 +55,21 @@
           "mantissa": 1.98,
           "exponent": 30
         },
-        "Acceleration": [0, 0],
-        "Position": [0.0, 0.0, 0.0],
-        "Velocity": [0.0, 0.0, 0.0]
+        "Acceleration": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0
+        },
+        "Position": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0
+        },
+        "Velocity": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0
+        }
       }
     }
   ]
