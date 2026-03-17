@@ -60,7 +60,7 @@ void loader::SimulationLoader::_createMassCpn(const entt::entity& entity, const 
     float mantissa = massJson.value("mantissa", 0.0f);
     int exponent = massJson.value("exponent", 0);
 
-    this->_registry.emplace_or_replace<components::Mass>(entity, mantissa, exponent);
+    this->_registry.emplace_or_replace<common::components::Mass>(entity, mantissa, exponent);
 }
 
 void loader::SimulationLoader::_createAccelerationCpn(const entt::entity& entity, const json& components)
@@ -69,7 +69,7 @@ void loader::SimulationLoader::_createAccelerationCpn(const entt::entity& entity
     float x = accelerationJson.value("x", 0.0f);
     float y = accelerationJson.value("y", 0.0f);
 
-    this->_registry.emplace_or_replace<components::Acceleration>(entity, x, y);
+    this->_registry.emplace_or_replace<common::components::Acceleration>(entity, x, y);
 }
 
 void loader::SimulationLoader::_createPositionCpn(const entt::entity& entity, const nlohmann::json& components)
@@ -79,7 +79,7 @@ void loader::SimulationLoader::_createPositionCpn(const entt::entity& entity, co
     float y = posJson.value("y", 0.0f);
     float z = posJson.value("z", 0.0f);
 
-    this->_registry.emplace_or_replace<components::Position>(entity, x, y, z);
+    this->_registry.emplace_or_replace<common::components::Position>(entity, x, y, z);
 }
 
 void loader::SimulationLoader::_createVelocityCpn(const entt::entity& entity, const nlohmann::json& components)
@@ -90,5 +90,5 @@ void loader::SimulationLoader::_createVelocityCpn(const entt::entity& entity, co
     float y = velJson.value("y", 0.0f);
     float z = velJson.value("z", 0.0f);
 
-    this->_registry.emplace_or_replace<components::Velocity>(entity, x, y, z);
+    this->_registry.emplace_or_replace<common::components::Velocity>(entity, x, y, z);
 }
