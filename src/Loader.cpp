@@ -1,12 +1,16 @@
 #include "Loader.hpp"
 #include <components/acceleration.hpp>
 #include <components/mass.hpp>
+#include <components/name.hpp>
 #include <components/position.hpp>
+#include <components/radius.hpp>
+#include <components/textureId.hpp>
 #include <components/velocity.hpp>
 #include <entt/entity/fwd.hpp>
 #include <fstream>
 #include <nlohmann/json.hpp>
 #include <types/types.hpp>
+#include <utils/assets.hpp>
 
 using json = nlohmann::json;
 
@@ -31,6 +35,12 @@ void loader::SimulationLoader::registerMapLoader()
                              { this->_createPositionCpn(entity, componentJson); }});
     this->_mapLoader.insert({"Acceleration", [this](const entt::entity& entity, const json& componentJson)
                              { this->_createAccelerationCpn(entity, componentJson); }});
+    this->_mapLoader.insert({"Name", [this](const entt::entity& entity, const json& componentJson)
+                             { this->_createNameCpn(entity, componentJson); }});
+    this->_mapLoader.insert({"Radius", [this](const entt::entity& entity, const json& componentJson)
+                             { this->_createRadiusCpn(entity, componentJson); }});
+    this->_mapLoader.insert({"TextureId", [this](const entt::entity& entity, const json& componentJson)
+                             { this->_createTextureIdCpn(entity, componentJson); }});
 }
 
 void loader::SimulationLoader::createEntities()
@@ -91,4 +101,35 @@ void loader::SimulationLoader::_createVelocityCpn(const entt::entity& entity, co
     float z = velJson.value("z", 0.0f);
 
     this->_registry.emplace_or_replace<common::components::Velocity>(entity, x, y, z);
+}
+
+void loader::SimulationLoader::_createNameCpn(const entt::entity& entity, const nlohmann::json& components)
+{
+    const auto& nameJson = components["Name"];
+    std::string tmp = nameJson.value("value", "");
+
+    common::components::Name name{};
+    std::strncpy(name.value, tmp.c_str(), common::components::MAX_NAME_LENGTH - 1);
+
+    this->_registry.emplace_or_replace<common::components::Name>(entity, name);
+}
+
+void loader::SimulationLoader::_createRadiusCpn(const entt::entity& entity, const nlohmann::json& components)
+{
+    const auto& radiusJson = components["Radius"];
+
+    float radius = radiusJson.value("value", 0.0f);
+
+    this->_registry.emplace_or_replace<common::components::Radius>(entity, radius);
+}
+
+void loader::SimulationLoader::_createTextureIdCpn(const entt::entity& entity, const nlohmann::json& components)
+{
+    const auto& textureJson = components["TextureId"];
+    std::string tmp = textureJson.value("id", common::DEFAULT_TEXTURE_ID);
+
+    common::components::TextureId tex{};
+    std::strncpy(tex.value, tmp.c_str(), common::components::MAX_TEXTURE_ID_LENGTH - 1);
+
+    this->_registry.emplace_or_replace<common::components::TextureId>(entity, tex);
 }
