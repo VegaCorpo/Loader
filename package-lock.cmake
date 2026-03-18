@@ -8,10 +8,10 @@ CPMDeclarePackage(EnTT
 
 # Common
 CPMDeclarePackage(Common
-        GIT_TAG main
-        GITHUB_REPOSITORY VegaCorpo/Common
-        SYSTEM YES
-        EXCLUDE_FROM_ALL YES
+    GIT_TAG main
+    GITHUB_REPOSITORY VegaCorpo/Common
+    SYSTEM YES
+    EXCLUDE_FROM_ALL YES
 )
 
 # json

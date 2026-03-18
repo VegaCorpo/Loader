@@ -48,6 +48,7 @@ target_link_libraries(orbital_loader PRIVATE nlohmann_json::nlohmann_json EnTT::
 
 target_include_directories(orbital_loader PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}
+    ${Common_SOURCE_DIR}
 )
 
 if(WIN32)

@@ -25,6 +25,9 @@ namespace loader {
             void _createAccelerationCpn(const entt::entity& entity, const nlohmann::json& components);
             void _createPositionCpn(const entt::entity& entity, const nlohmann::json& components);
             void _createVelocityCpn(const entt::entity& entity, const nlohmann::json& components);
+            void _createNameCpn(const entt::entity& entity, const nlohmann::json& components);
+            void _createRadiusCpn(const entt::entity& entity, const nlohmann::json& components);
+            void _createTextureIdCpn(const entt::entity& entity, const nlohmann::json& components);
 
             std::unordered_map<std::string, std::function<void(const entt::entity&, const nlohmann::json&)>> _mapLoader;
             common::LoaderStatus _status;
