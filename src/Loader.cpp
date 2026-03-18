@@ -39,8 +39,8 @@ void loader::SimulationLoader::registerMapLoader()
                              { this->_createNameCpn(entity, componentJson); }});
     this->_mapLoader.insert({"Radius", [this](const entt::entity& entity, const json& componentJson)
                              { this->_createRadiusCpn(entity, componentJson); }});
-    this->_mapLoader.insert({"TextureId", [this](const entt::entity& entity, const json& componentJson)
-                             { this->_createTextureIdCpn(entity, componentJson); }});
+    this->_mapLoader.insert({"Texture", [this](const entt::entity& entity, const json& componentJson)
+                             { this->_createTextureCpn(entity, componentJson); }});
 }
 
 void loader::SimulationLoader::createEntities()
@@ -123,13 +123,13 @@ void loader::SimulationLoader::_createRadiusCpn(const entt::entity& entity, cons
     this->_registry.emplace_or_replace<common::components::Radius>(entity, radius);
 }
 
-void loader::SimulationLoader::_createTextureIdCpn(const entt::entity& entity, const nlohmann::json& components)
+void loader::SimulationLoader::_createTextureCpn(const entt::entity& entity, const nlohmann::json& components)
 {
-    const auto& textureJson = components["TextureId"];
-    std::string tmp = textureJson.value("id", common::DEFAULT_TEXTURE_ID);
+    const auto& textureJson = components["Texture"];
+    std::string tmp = textureJson.value("path", common::DEFAULT_TEXTURE_PATH);
 
-    common::components::TextureId tex{};
-    std::strncpy(tex.value, tmp.c_str(), common::components::MAX_TEXTURE_ID_LENGTH - 1);
+    common::components::Texture tex{};
+    std::strncpy(tex.path, tmp.c_str(), common::components::MAX_TEXTURE_PATH_LENGTH - 1);
 
-    this->_registry.emplace_or_replace<common::components::TextureId>(entity, tex);
+    this->_registry.emplace_or_replace<common::components::Texture>(entity, tex);
 }
