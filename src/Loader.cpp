@@ -4,7 +4,7 @@
 #include <components/name.hpp>
 #include <components/position.hpp>
 #include <components/radius.hpp>
-#include <components/textureId.hpp>
+#include <components/texture.hpp>
 #include <components/velocity.hpp>
 #include <entt/entity/fwd.hpp>
 #include <fstream>
