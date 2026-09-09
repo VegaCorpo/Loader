@@ -3,8 +3,8 @@
 #include <entt/entity/registry.hpp>
 #include <types/types.hpp>
 
-#include <string>
+#include "interfaces/ILoaderEngine.hpp"
 
 extern "C" {
-    common::LoaderStatus createScene(void *registry ,const std::string& filename) noexcept;
+    std::unique_ptr<common::ILoaderEngine> get_engine();
 }
