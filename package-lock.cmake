@@ -8,7 +8,7 @@ CPMDeclarePackage(EnTT
 
 # Common
 CPMDeclarePackage(Common
-    GIT_TAG main
+    GIT_TAG dataTransfer
     GITHUB_REPOSITORY VegaCorpo/Common
     SYSTEM YES
     EXCLUDE_FROM_ALL YES
