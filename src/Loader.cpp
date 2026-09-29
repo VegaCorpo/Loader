@@ -78,8 +78,9 @@ void loader::SimulationLoader::_createAccelerationCpn(const entt::entity& entity
     const auto& accelerationJson = components["Acceleration"];
     float x = accelerationJson.value("x", 0.0f);
     float y = accelerationJson.value("y", 0.0f);
+    float z = accelerationJson.value("z", 0.0f);
 
-    this->_registry.emplace_or_replace<common::components::Acceleration>(entity, x, y);
+    this->_registry.emplace_or_replace<common::components::Acceleration>(entity, x, y, z);
 }
 
 void loader::SimulationLoader::_createPositionCpn(const entt::entity& entity, const nlohmann::json& components)
