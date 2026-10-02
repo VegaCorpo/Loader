@@ -1,6 +1,6 @@
 #include "Loader.hpp"
 #include <components/acceleration.hpp>
-#include <components/angular_velocity.hpp>
+#include <components/angularVelocity.hpp>
 #include <components/mass.hpp>
 #include <components/name.hpp>
 #include <components/orientation.hpp>
@@ -11,9 +11,9 @@
 #include <entt/entity/fwd.hpp>
 #include <fstream>
 #include <nlohmann/json.hpp>
+#include <numbers>
 #include <types/types.hpp>
 #include <utils/assets.hpp>
-#include <numbers>
 #include <utils/spin.hpp>
 
 using json = nlohmann::json;
@@ -40,29 +40,29 @@ common::LoaderStatus loader::SimulationLoader::createScene(void* registry_ptr, c
 
 void loader::SimulationLoader::registerMapLoader()
 {
-    this->_mapLoader.insert({"Velocity", [this](entt::registry& registry, const entt::entity& entity,
-                                                const json& componentJson)
+    this->_mapLoader.insert({"Velocity",
+                             [this](entt::registry& registry, const entt::entity& entity, const json& componentJson)
                              { this->_createVelocityCpn(registry, entity, componentJson); }});
-    this->_mapLoader.insert({"Mass", [this](entt::registry& registry, const entt::entity& entity,
-                                            const json& componentJson)
+    this->_mapLoader.insert({"Mass",
+                             [this](entt::registry& registry, const entt::entity& entity, const json& componentJson)
                              { this->_createMassCpn(registry, entity, componentJson); }});
-    this->_mapLoader.insert({"Position", [this](entt::registry& registry, const entt::entity& entity,
-                                                const json& componentJson)
+    this->_mapLoader.insert({"Position",
+                             [this](entt::registry& registry, const entt::entity& entity, const json& componentJson)
                              { this->_createPositionCpn(registry, entity, componentJson); }});
-    this->_mapLoader.insert({"Acceleration", [this](entt::registry& registry, const entt::entity& entity,
-                                                    const json& componentJson)
+    this->_mapLoader.insert({"Acceleration",
+                             [this](entt::registry& registry, const entt::entity& entity, const json& componentJson)
                              { this->_createAccelerationCpn(registry, entity, componentJson); }});
-    this->_mapLoader.insert({"Name", [this](entt::registry& registry, const entt::entity& entity,
-                                            const json& componentJson)
+    this->_mapLoader.insert({"Name",
+                             [this](entt::registry& registry, const entt::entity& entity, const json& componentJson)
                              { this->_createNameCpn(registry, entity, componentJson); }});
-    this->_mapLoader.insert({"Radius", [this](entt::registry& registry, const entt::entity& entity,
-                                              const json& componentJson)
+    this->_mapLoader.insert({"Radius",
+                             [this](entt::registry& registry, const entt::entity& entity, const json& componentJson)
                              { this->_createRadiusCpn(registry, entity, componentJson); }});
-    this->_mapLoader.insert({"Texture", [this](entt::registry& registry, const entt::entity& entity,
-                                               const json& componentJson)
+    this->_mapLoader.insert({"Texture",
+                             [this](entt::registry& registry, const entt::entity& entity, const json& componentJson)
                              { this->_createTextureCpn(registry, entity, componentJson); }});
-    this->_mapLoader.insert({"Rotation", [this](entt::registry& registry, const entt::entity& entity,
-                                                const json& componentJson)
+    this->_mapLoader.insert({"Rotation",
+                             [this](entt::registry& registry, const entt::entity& entity, const json& componentJson)
                              { this->_createRotationCpn(registry, entity, componentJson); }});
 }
 
