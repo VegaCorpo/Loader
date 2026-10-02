@@ -7,6 +7,7 @@
 #include <string>
 #include <types/types.hpp>
 #include <unordered_map>
+#include <utils/spin.hpp>
 #include "interfaces/ILoaderEngine.hpp"
 
 namespace loader {
@@ -31,6 +32,8 @@ namespace loader {
             void _createNameCpn(entt::registry&, const entt::entity& entity, const nlohmann::json& components);
             void _createRadiusCpn(entt::registry&, const entt::entity& entity, const nlohmann::json& components);
             void _createTextureCpn(entt::registry&, const entt::entity& entity, const nlohmann::json& components);
+            void _createRotationCpn(entt::registry&, const entt::entity& entity, const nlohmann::json& components);
+            [[nodiscard]] static common::rotation::SpinParameters _readSpinParameters(const nlohmann::json& rotationJson);
 
             std::unordered_map<std::string,
                 std::function<void(entt::registry&, const entt::entity&, const nlohmann::json&)>> _mapLoader;
