@@ -1,7 +1,9 @@
 #include "Loader.hpp"
 #include <components/acceleration.hpp>
+#include <components/angularVelocity.hpp>
 #include <components/mass.hpp>
 #include <components/name.hpp>
+#include <components/orientation.hpp>
 #include <components/position.hpp>
 #include <components/radius.hpp>
 #include <components/texture.hpp>
@@ -9,10 +11,16 @@
 #include <entt/entity/fwd.hpp>
 #include <fstream>
 #include <nlohmann/json.hpp>
+#include <numbers>
 #include <types/types.hpp>
 #include <utils/assets.hpp>
+#include <utils/spin.hpp>
 
 using json = nlohmann::json;
+
+namespace {
+    constexpr double DEGREES_TO_RADIANS = std::numbers::pi / 180.0;
+} // namespace
 
 common::LoaderStatus loader::SimulationLoader::createScene(void* registry_ptr, const std::string& filename)
 {
@@ -32,27 +40,30 @@ common::LoaderStatus loader::SimulationLoader::createScene(void* registry_ptr, c
 
 void loader::SimulationLoader::registerMapLoader()
 {
-    this->_mapLoader.insert({"Velocity", [this](entt::registry& registry, const entt::entity& entity,
-                                                const json& componentJson)
+    this->_mapLoader.insert({"Velocity",
+                             [this](entt::registry& registry, const entt::entity& entity, const json& componentJson)
                              { this->_createVelocityCpn(registry, entity, componentJson); }});
-    this->_mapLoader.insert({"Mass", [this](entt::registry& registry, const entt::entity& entity,
-                                            const json& componentJson)
+    this->_mapLoader.insert({"Mass",
+                             [this](entt::registry& registry, const entt::entity& entity, const json& componentJson)
                              { this->_createMassCpn(registry, entity, componentJson); }});
-    this->_mapLoader.insert({"Position", [this](entt::registry& registry, const entt::entity& entity,
-                                                const json& componentJson)
+    this->_mapLoader.insert({"Position",
+                             [this](entt::registry& registry, const entt::entity& entity, const json& componentJson)
                              { this->_createPositionCpn(registry, entity, componentJson); }});
-    this->_mapLoader.insert({"Acceleration", [this](entt::registry& registry, const entt::entity& entity,
-                                                    const json& componentJson)
+    this->_mapLoader.insert({"Acceleration",
+                             [this](entt::registry& registry, const entt::entity& entity, const json& componentJson)
                              { this->_createAccelerationCpn(registry, entity, componentJson); }});
-    this->_mapLoader.insert({"Name", [this](entt::registry& registry, const entt::entity& entity,
-                                            const json& componentJson)
+    this->_mapLoader.insert({"Name",
+                             [this](entt::registry& registry, const entt::entity& entity, const json& componentJson)
                              { this->_createNameCpn(registry, entity, componentJson); }});
-    this->_mapLoader.insert({"Radius", [this](entt::registry& registry, const entt::entity& entity,
-                                              const json& componentJson)
+    this->_mapLoader.insert({"Radius",
+                             [this](entt::registry& registry, const entt::entity& entity, const json& componentJson)
                              { this->_createRadiusCpn(registry, entity, componentJson); }});
-    this->_mapLoader.insert({"Texture", [this](entt::registry& registry, const entt::entity& entity,
-                                               const json& componentJson)
+    this->_mapLoader.insert({"Texture",
+                             [this](entt::registry& registry, const entt::entity& entity, const json& componentJson)
                              { this->_createTextureCpn(registry, entity, componentJson); }});
+    this->_mapLoader.insert({"Rotation",
+                             [this](entt::registry& registry, const entt::entity& entity, const json& componentJson)
+                             { this->_createRotationCpn(registry, entity, componentJson); }});
 }
 
 void loader::SimulationLoader::createEntities(entt::registry& registry)
@@ -93,8 +104,9 @@ void loader::SimulationLoader::_createAccelerationCpn(entt::registry& registry, 
     const auto& accelerationJson = components["Acceleration"];
     float x = accelerationJson.value("x", 0.0f);
     float y = accelerationJson.value("y", 0.0f);
+    float z = accelerationJson.value("z", 0.0f);
 
-    registry.emplace_or_replace<common::components::Acceleration>(entity, x, y);
+    registry.emplace_or_replace<common::components::Acceleration>(entity, x, y, z);
 }
 
 void loader::SimulationLoader::_createPositionCpn(entt::registry& registry, const entt::entity& entity,
@@ -152,4 +164,23 @@ void loader::SimulationLoader::_createTextureCpn(entt::registry& registry, const
     std::strncpy(tex.path, tmp.c_str(), common::components::MAX_TEXTURE_PATH_LENGTH - 1);
 
     registry.emplace_or_replace<common::components::Texture>(entity, tex);
+}
+
+void loader::SimulationLoader::_createRotationCpn(entt::registry& registry, const entt::entity& entity,
+                                                  const nlohmann::json& components)
+{
+    const auto spin = loader::SimulationLoader::_readSpinParameters(components["Rotation"]);
+
+    registry.emplace_or_replace<common::components::Orientation>(entity, common::rotation::initialOrientation(spin));
+    registry.emplace_or_replace<common::components::AngularVelocity>(entity, common::rotation::angularVelocity(spin));
+}
+
+common::rotation::SpinParameters loader::SimulationLoader::_readSpinParameters(const nlohmann::json& rotationJson)
+{
+    return {
+        rotationJson.value("period", 0.0),
+        rotationJson.value("obliquity", 0.0) * DEGREES_TO_RADIANS,
+        rotationJson.value("axisAzimuth", 0.0) * DEGREES_TO_RADIANS,
+        rotationJson.value("initialAngle", 0.0) * DEGREES_TO_RADIANS,
+    };
 }
