@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.14)
 
-project(orbital_loader)
+project(orbital_loader VERSION 0.1.0)
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 set(CMAKE_INTERPROCEDURAL_OPTIMIZATION ON)
@@ -49,6 +49,11 @@ target_link_libraries(orbital_loader PRIVATE nlohmann_json::nlohmann_json EnTT::
 target_include_directories(orbital_loader PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}
     ${Common_SOURCE_DIR}
+)
+
+target_compile_definitions(orbital_loader PRIVATE
+    ORBITAL_MODULE_NAME="${PROJECT_NAME}"
+    ORBITAL_MODULE_VERSION="${PROJECT_VERSION}"
 )
 
 if(WIN32)
