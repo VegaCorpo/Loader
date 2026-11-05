@@ -1,10 +1,10 @@
 #pragma once
 
-#include <entt/entity/fwd.hpp>
-#include <entt/entity/registry.hpp>
+#include <expected>
 #include <functional>
 #include <nlohmann/json.hpp>
 #include <string>
+#include <types/Scene.hpp>
 #include <types/types.hpp>
 #include <unordered_map>
 #include <utils/spin.hpp>
@@ -15,28 +15,29 @@ namespace loader {
         public:
             SimulationLoader() = default;
 
-            common::LoaderStatus createScene(void* registry_ptr, const std::string& filename) override;
+            [[nodiscard]] std::expected<common::SceneDescription, common::LoaderStatus>
+                createScene(const std::string& filename) override;
 
-            void createEntities(entt::registry& registry);
+            [[nodiscard]] common::LoaderStatus createBodies(common::SceneDescription& scene);
 
             void registerMapLoader();
 
             [[nodiscard]] common::LoaderStatus getLoaderStatus() const { return this->_status; };
 
         private:
-            void _createComponents(entt::registry&, const entt::entity& entity, const nlohmann::json&);
-            void _createMassCpn(entt::registry&, const entt::entity& entity, const nlohmann::json&);
-            void _createAccelerationCpn(entt::registry&, const entt::entity& entity, const nlohmann::json& components);
-            void _createPositionCpn(entt::registry&, const entt::entity& entity, const nlohmann::json& components);
-            void _createVelocityCpn(entt::registry&, const entt::entity& entity, const nlohmann::json& components);
-            void _createNameCpn(entt::registry&, const entt::entity& entity, const nlohmann::json& components);
-            void _createRadiusCpn(entt::registry&, const entt::entity& entity, const nlohmann::json& components);
-            void _createTextureCpn(entt::registry&, const entt::entity& entity, const nlohmann::json& components);
-            void _createRotationCpn(entt::registry&, const entt::entity& entity, const nlohmann::json& components);
+            [[nodiscard]] bool _createComponents(common::BodyDescription& body, const nlohmann::json& entityData);
+            void _createMassCpn(common::BodyDescription& body, const nlohmann::json& components);
+            void _createAccelerationCpn(common::BodyDescription& body, const nlohmann::json& components);
+            void _createPositionCpn(common::BodyDescription& body, const nlohmann::json& components);
+            void _createVelocityCpn(common::BodyDescription& body, const nlohmann::json& components);
+            void _createNameCpn(common::BodyDescription& body, const nlohmann::json& components);
+            void _createRadiusCpn(common::BodyDescription& body, const nlohmann::json& components);
+            void _createTextureCpn(common::BodyDescription& body, const nlohmann::json& components);
+            void _createRotationCpn(common::BodyDescription& body, const nlohmann::json& components);
             [[nodiscard]] static common::rotation::SpinParameters _readSpinParameters(const nlohmann::json& rotationJson);
 
-            std::unordered_map<std::string,
-                std::function<void(entt::registry&, const entt::entity&, const nlohmann::json&)>> _mapLoader;
+            std::unordered_map<std::string, std::function<void(common::BodyDescription&, const nlohmann::json&)>>
+                _mapLoader;
             common::LoaderStatus _status = common::LoaderStatus::SUCCESS;
             nlohmann::json _data;
     };
