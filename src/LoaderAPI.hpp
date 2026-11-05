@@ -1,6 +1,6 @@
 #pragma once
 
-#include <entt/entity/registry.hpp>
+#include <memory>
 #include <types/types.hpp>
 
 #include "interfaces/ILoaderEngine.hpp"
